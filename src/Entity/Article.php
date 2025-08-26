@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -10,7 +12,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     normalizationContext: ['groups' => ['article:read']],
-    denormalizationContext: ['groups' => ['article:write']]
+    denormalizationContext: ['groups' => ['article:write']],
+    operations: [
+        new GetCollection(),            // GET /api/articles
+        new Get(),                      // GET /api/articles/{id}
+    ]
 )]
 class Article
 {
@@ -35,6 +41,7 @@ class Article
     private ?string $coverUrl = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['article:read'])]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable')]

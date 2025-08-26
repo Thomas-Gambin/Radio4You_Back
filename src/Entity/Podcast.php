@@ -3,11 +3,18 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
-#[ApiResource] // CRUD simple via API Platform
+#[ApiResource(
+    operations: [
+        new GetCollection(),            // GET /api/articles
+        new Get(),                      // GET /api/articles/{id}
+    ]
+)] // CRUD simple via API Platform
 class Podcast
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
