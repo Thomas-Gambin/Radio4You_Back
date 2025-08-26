@@ -4,62 +4,31 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
-#[ApiResource(
-    normalizationContext: ['groups' => ['podcast:read']],
-    denormalizationContext: ['groups' => ['podcast:write']]
-)]
+#[ApiResource] // CRUD simple via API Platform
 class Podcast
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
-    #[Groups(['podcast:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['podcast:read', 'podcast:write'])]
     private string $title;
 
-    #[ORM\Column(length: 200, unique: true)]
-    #[Groups(['podcast:read', 'podcast:write'])]
-    private string $slug;
-
     #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups(['podcast:read', 'podcast:write'])]
     private ?string $description = null;
 
-    // Cloudinary cover
-    #[ORM\Column(nullable: true)]
-    #[Groups(['podcast:read', 'podcast:write'])]
-    private ?string $coverPublicId = null;
-
-    #[ORM\Column(nullable: true)]
-    #[Groups(['podcast:read', 'podcast:write'])]
-    private ?string $coverUrl = null;
-
-    // Video on Cloudinary
-    #[ORM\Column(nullable: true)]
-    #[Groups(['podcast:read', 'podcast:write'])]
-    private ?string $videoPublicId = null;
-
-    #[ORM\Column(nullable: true)]
-    #[Groups(['podcast:read', 'podcast:write'])]
+    // URL complète (ex: https://www.youtube.com/watch?v=XXXX)
+    #[ORM\Column(length: 1024, nullable: true)]
     private ?string $videoUrl = null;
 
-    // Audio stays as external URL (or host on Cloudinary if tu veux plus tard)
-    #[ORM\Column(nullable: true)]
-    #[Groups(['podcast:read', 'podcast:write'])]
+    // Optionnels
+    #[ORM\Column(length: 1024, nullable: true)]
     private ?string $audioUrl = null;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['podcast:read', 'podcast:write'])]
-    private ?int $durationSec = null;
-
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    #[Groups(['podcast:read'])]
-    private ?\DateTimeImmutable $publishedAt = null;
+    #[ORM\Column(length: 1024, nullable: true)]
+    private ?string $coverUrl = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
@@ -96,53 +65,13 @@ class Podcast
         return $this;
     }
 
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
     }
-    public function setDescription(?string $d): self
+    public function setDescription(?string $description): self
     {
-        $this->description = $d;
-        return $this;
-    }
-
-    public function getCoverPublicId(): ?string
-    {
-        return $this->coverPublicId;
-    }
-    public function setCoverPublicId(?string $id): self
-    {
-        $this->coverPublicId = $id;
-        return $this;
-    }
-
-    public function getCoverUrl(): ?string
-    {
-        return $this->coverUrl;
-    }
-    public function setCoverUrl(?string $url): self
-    {
-        $this->coverUrl = $url;
-        return $this;
-    }
-
-    public function getVideoPublicId(): ?string
-    {
-        return $this->videoPublicId;
-    }
-    public function setVideoPublicId(?string $id): self
-    {
-        $this->videoPublicId = $id;
+        $this->description = $description;
         return $this;
     }
 
@@ -150,9 +79,9 @@ class Podcast
     {
         return $this->videoUrl;
     }
-    public function setVideoUrl(?string $url): self
+    public function setVideoUrl(?string $videoUrl): self
     {
-        $this->videoUrl = $url;
+        $this->videoUrl = $videoUrl;
         return $this;
     }
 
@@ -160,29 +89,19 @@ class Podcast
     {
         return $this->audioUrl;
     }
-    public function setAudioUrl(?string $url): self
+    public function setAudioUrl(?string $audioUrl): self
     {
-        $this->audioUrl = $url;
+        $this->audioUrl = $audioUrl;
         return $this;
     }
 
-    public function getDurationSec(): ?int
+    public function getCoverUrl(): ?string
     {
-        return $this->durationSec;
+        return $this->coverUrl;
     }
-    public function setDurationSec(?int $s): self
+    public function setCoverUrl(?string $coverUrl): self
     {
-        $this->durationSec = $s;
-        return $this;
-    }
-
-    public function getPublishedAt(): ?\DateTimeImmutable
-    {
-        return $this->publishedAt;
-    }
-    public function setPublishedAt(?\DateTimeImmutable $dt): self
-    {
-        $this->publishedAt = $dt;
+        $this->coverUrl = $coverUrl;
         return $this;
     }
 
@@ -190,9 +109,9 @@ class Podcast
     {
         return $this->createdAt;
     }
-    public function setCreatedAt(\DateTimeImmutable $dt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
-        $this->createdAt = $dt;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -200,9 +119,9 @@ class Podcast
     {
         return $this->updatedAt;
     }
-    public function setUpdatedAt(\DateTimeImmutable $dt): self
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
-        $this->updatedAt = $dt;
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 }

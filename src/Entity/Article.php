@@ -22,19 +22,10 @@ class Article
     #[Groups(['article:read', 'article:write'])]
     private string $title;
 
-    #[ORM\Column(length: 200, unique: true)]
-    #[Groups(['article:read', 'article:write'])]
-    private string $slug;
-
-    #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups(['article:read', 'article:write'])]
-    private ?string $excerpt = null;
-
     #[ORM\Column(type: 'text')]
     #[Groups(['article:read', 'article:write'])]
     private string $content;
 
-    // Cloudinary cover
     #[ORM\Column(nullable: true)]
     #[Groups(['article:read', 'article:write'])]
     private ?string $coverPublicId = null;
@@ -42,14 +33,6 @@ class Article
     #[ORM\Column(nullable: true)]
     #[Groups(['article:read', 'article:write'])]
     private ?string $coverUrl = null;
-
-    #[ORM\Column(nullable: true)]
-    #[Groups(['article:read', 'article:write'])]
-    private ?string $coverAlt = null;
-
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    #[Groups(['article:read'])]
-    private ?\DateTimeImmutable $publishedAt = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
@@ -86,25 +69,6 @@ class Article
         return $this;
     }
 
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-        return $this;
-    }
-
-    public function getExcerpt(): ?string
-    {
-        return $this->excerpt;
-    }
-    public function setExcerpt(?string $excerpt): self
-    {
-        $this->excerpt = $excerpt;
-        return $this;
-    }
 
     public function getContent(): string
     {
@@ -133,26 +97,6 @@ class Article
     public function setCoverUrl(?string $url): self
     {
         $this->coverUrl = $url;
-        return $this;
-    }
-
-    public function getCoverAlt(): ?string
-    {
-        return $this->coverAlt;
-    }
-    public function setCoverAlt(?string $alt): self
-    {
-        $this->coverAlt = $alt;
-        return $this;
-    }
-
-    public function getPublishedAt(): ?\DateTimeImmutable
-    {
-        return $this->publishedAt;
-    }
-    public function setPublishedAt(?\DateTimeImmutable $dt): self
-    {
-        $this->publishedAt = $dt;
         return $this;
     }
 

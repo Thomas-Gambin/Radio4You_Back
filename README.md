@@ -1,6 +1,6 @@
 Creer bdd :
 
-CREATE DATABASE radio4you CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'radio'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON radio4you.* TO 'radio'@'localhost';
-FLUSH PRIVILEGES;
+php bin/console doctrine:database:drop --force --if-exists
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate
+php bin/console doctrine:fixtures:load
