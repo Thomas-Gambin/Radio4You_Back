@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -14,8 +16,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['article:read']],
     denormalizationContext: ['groups' => ['article:write']],
     operations: [
-        new GetCollection(),            // GET /api/articles
-        new Get(),                      // GET /api/articles/{id}
+        new GetCollection(), // GET /api/articles
+        new Get(), // GET /api/articles/{id}
+    ],
+    extraProperties: [
+        'pagination_enabled' => true,
+        'pagination_client_enabled' => true,
+        'pagination_client_items_per_page' => true,
+        'pagination_items_per_page' => 6,
     ]
 )]
 class Article
