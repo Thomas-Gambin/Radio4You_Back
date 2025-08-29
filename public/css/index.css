@@ -1,0 +1,193 @@
+/* ===== Cartes du dashboard ===== */
+.admin-cards {
+    display: flex;
+    justify-content: center;
+    /* centre l’ensemble */
+    padding: 8px 0 24px;
+}
+
+.cards-grid {
+    width: 100%;
+    max-width: 1000px;
+    /* limite la largeur pour centrer proprement */
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+    /* mobile */
+}
+
+@media (min-width: 640px) {
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.card-manage {
+    background: var(--ea-panel, rgba(255, 255, 255, 0.04));
+    border: 1px solid var(--ea-border, rgba(255, 255, 255, 0.08));
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    transition: transform .15s ease, background .15s ease, border-color .15s ease;
+}
+
+.card-manage:hover {
+    transform: translateY(-2px);
+    background: var(--ea-panel-hover, rgba(255, 255, 255, 0.06));
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+.card-manage h3 {
+    margin: 8px 0 6px;
+    font-size: 1.125rem;
+}
+
+.card-manage p {
+    margin: 0 0 14px;
+    color: var(--ea-sub, #a8b3cf);
+    font-size: .95rem;
+}
+
+.card-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 6px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--ea-panel-hover, rgba(255, 255, 255, 0.06));
+    border: 1px solid var(--ea-border, rgba(255, 255, 255, 0.08));
+    font-size: 26px;
+}
+
+/* Boutons : on reste proche du style EA */
+.btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ea-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--ea-border, rgba(255, 255, 255, 0.08));
+    background: var(--ea-panel, rgba(255, 255, 255, 0.04));
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background .15s ease, transform .15s ease, border-color .15s ease;
+}
+
+.ea-btn:hover {
+    background: var(--ea-panel-hover, rgba(255, 255, 255, 0.06));
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+.ea-btn.primary {
+    border-color: rgba(97, 218, 251, .35);
+    box-shadow: 0 0 0 2px rgba(97, 218, 251, .12) inset;
+}
+
+/* Fond global sombre */
+body.ea-dark {
+    background: #0b0f16;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: system-ui, sans-serif;
+}
+
+/* Conteneur du formulaire */
+.login-box {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 32px;
+    width: 100%;
+    max-width: 360px;
+    color: #e7e7e7;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+/* Titre */
+.login-box h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Champs */
+.login-box label {
+    display: block;
+    text-align: left;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: #a8b3cf;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+.login-box input:focus {
+    border-color: #61dafb;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(97, 218, 251, .2);
+}
+
+/* Checkbox */
+.login-box .form-check-label {
+    font-size: 0.85rem;
+    color: #a8b3cf;
+}
+
+/* Bouton */
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 8px;
+    background: #61dafb;
+    color: #0b0f16;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .15s ease, transform .15s ease;
+}
+
+.login-box button:hover {
+    background: #4cc5e6;
+    transform: translateY(-1px);
+}
+
+/* Message d'erreur */
+.alert-danger {
+    background: rgba(239, 68, 68, .15);
+    border: 1px solid rgba(239, 68, 68, .3);
+    color: #fca5a5;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    font-size: 0.9rem;
+}

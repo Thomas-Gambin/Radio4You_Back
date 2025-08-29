@@ -1,0 +1,32 @@
+{% extends '@EasyAdmin/page/login.html.twig' %}
+
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+{% endblock %}
+
+{% block body_class 'ea-dark' %}
+
+{% block login_form %}
+    <div class="login-box">
+        <h1>Se connecter</h1>
+
+    {% if error %}
+        <div class="alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+        <form method="post" action="{{ path('app_login') }}">
+            <label for="username">Identifiant</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" autocomplete="username" required  autofocus>
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="_password" autocomplete="current-password" required>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="remember_me" name="_remember_me">
+                <label class="form-check-label" for="remember_me">Se souvenir de moi</label>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_value }}">
+            <button type="submit">Connexion</button>
+    </form>
+    </div>
+{% endblock %}

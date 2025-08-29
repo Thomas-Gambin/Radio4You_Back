@@ -1,0 +1,43 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+{% endblock %}
+
+{% block content_title %}Bienvenue sur le back-office 🚀{% endblock %}
+{% block content_help %}{% endblock %}
+
+{% block main %}
+    <section class="admin-cards">
+        <div class="cards-grid">
+            <article class="card-manage">
+                <div class="card-icon">📄</div>
+                <h3>Articles</h3>
+                <p>Crée et organise tes actualités.</p>
+                <div class="btn-row">
+                    <a class="btn ea-btn" href="{{ ea_url().setController('App\\Controller\\Admin\\ArticleCrudController') }}   ">Gérer</a>
+                    <a class="btn ea-btn primary" href="{{ ea_url().setController   ('App\\Controller\\Admin\\ArticleCrudController').   setAction('new') }}">Créer</a>
+                </div>
+            </article>
+            <article class="card-manage">
+                <div class="card-icon">🎙️</div>
+                <h3>Podcasts</h3>
+                <p>Ajoute des épisodes et des séries.</p>
+                <div class="btn-row">
+                    <a class="btn ea-btn" href="{{ ea_url().setController('App\\Controller\\Admin\\PodcastCrudController') }}   ">Gérer</a>
+                    <a class="btn ea-btn primary" href="{{ ea_url().setController   ('App\\Controller\\Admin\\PodcastCrudController').     setAction('new') }}">Créer</a>
+                </div>
+            </article>
+            <article class="card-manage">
+                <div class="card-icon">👤</div>
+                <h3>Utilisateurs</h3>
+                <p>Administre les comptes et accès.</p>
+                <div class="btn-row">
+                    <a class="btn ea-btn" href="{{ ea_url().setController('App\\Controller\\Admin\\UserCrudController') }}">Gérer</ a>
+                    <a class="btn ea-btn primary" href="{{ ea_url().setController('App\\Controller\\Admin\\UserCrudController').        setAction ('new') }}">Créer</a>
+                </div>
+            </article>
+        </div>
+    </section>
+{% endblock %}
