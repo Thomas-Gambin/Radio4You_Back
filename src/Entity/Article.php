@@ -40,10 +40,6 @@ class Article
 
     #[ORM\Column(nullable: true)]
     #[Groups(['article:read', 'article:write'])]
-    private ?string $coverPublicId = null;
-
-    #[ORM\Column(nullable: true)]
-    #[Groups(['article:read', 'article:write'])]
     private ?string $coverUrl = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -90,16 +86,6 @@ class Article
     public function setContent(string $content): self
     {
         $this->content = $content;
-        return $this;
-    }
-
-    public function getCoverPublicId(): ?string
-    {
-        return $this->coverPublicId;
-    }
-    public function setCoverPublicId(?string $id): self
-    {
-        $this->coverPublicId = $id;
         return $this;
     }
 

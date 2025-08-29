@@ -1,0 +1,18 @@
+# config/packages/liip_imagine.yaml
+liip_imagine:
+  driver: "gd" # ou "imagick" si tu as l’extension
+  resolvers:
+    default:
+      web_path:
+        web_root: "%kernel.project_dir%/public"
+        cache_prefix: "media/cache"
+
+  filter_sets:
+    # Ton SEUL filtre (nom: cover)
+    cover:
+      quality: 85
+      format: webp
+      filters:
+        thumbnail:
+          size: [800, 600]   # ajuste si tu veux
+          mode: inset        # pas de crop, garde le ratio

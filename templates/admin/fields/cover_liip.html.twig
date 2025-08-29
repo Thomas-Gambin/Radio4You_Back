@@ -1,0 +1,10 @@
+{% if field.value %}
+  {% set originalPath = 'uploads/covers/' ~ field.value %}
+  <img
+    src="{{ asset(originalPath) | imagine_filter('cover') }}"
+    alt="cover"
+    style="max-width: 240px; height: auto; border-radius: 8px;"
+  />
+{% else %}
+  <span style="opacity: .6;">—</span>
+{% endif %}

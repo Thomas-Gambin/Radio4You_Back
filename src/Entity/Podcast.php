@@ -6,15 +6,16 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     operations: [
-        new GetCollection(),            // GET /api/articles
-        new Get(),                      // GET /api/articles/{id}
+        new GetCollection(), // GET /api/articles
+        new Get(), // GET /api/articles/{id}
     ]
-)] // CRUD simple via API Platform
+)]
 class Podcast
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
@@ -24,13 +25,13 @@ class Podcast
     private string $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['podcast:read', 'podcast:write'])]
+
     private ?string $description = null;
 
-    // URL complète (ex: https://www.youtube.com/watch?v=XXXX)
     #[ORM\Column(length: 1024, nullable: true)]
     private ?string $videoUrl = null;
 
-    // Optionnels
     #[ORM\Column(length: 1024, nullable: true)]
     private ?string $audioUrl = null;
 

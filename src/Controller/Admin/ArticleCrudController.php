@@ -1,17 +1,16 @@
 <?php
-// src/Controller/Admin/ArticleCrudController.php
 
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 class ArticleCrudController extends AbstractCrudController
 {
@@ -31,22 +30,35 @@ class ArticleCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+
+        $coverForIndex = Field::new('coverUrl', 'Cover')
+            ->onlyOnIndex()
+            ->setTemplatePath('admin/fields/cover_liip.html.twig');
+
+        $coverForDetail = Field::new('coverUrl', 'Cover')
+            ->onlyOnDetail()
+            ->setTemplatePath('admin/fields/cover_liip.html.twig');
+
+        $coverForForm = ImageField::new('coverUrl', 'Image de couverture (upload)')
+            ->onlyOnForms()
+            ->setBasePath('uploads/covers/')
+            ->setUploadDir('public/uploads/covers/')
+            ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
+            ->setRequired(false);
+
         yield IdField::new('id')->onlyOnIndex();
         yield TextField::new('title', 'Titre');
-        yield UrlField::new('coverUrl', 'Image (URL)')
-            ->onlyOnForms();
 
-        yield ImageField::new('coverUrl', 'Cover')
-            ->onlyOnIndex()
-            ->setBasePath('');
-        yield ImageField::new('coverUrl', 'Cover')
-            ->onlyOnDetail()
-            ->setBasePath('');
+        yield $coverForForm;
+        yield $coverForIndex;
+        yield $coverForDetail;
+
         yield TextEditorField::new('content', 'Contenu')->onlyOnForms();
         yield TextField::new('content', 'Contenu')
             ->onlyOnIndex()
             ->formatValue(fn($v) => mb_strimwidth(strip_tags($v ?? ''), 0, 80, '…'));
         yield TextEditorField::new('content', 'Contenu')->onlyOnDetail();
+
         yield DateTimeField::new('createdAt', 'Created At')->onlyOnIndex();
         yield DateTimeField::new('updatedAt', 'Updated At')->onlyOnDetail();
     }
