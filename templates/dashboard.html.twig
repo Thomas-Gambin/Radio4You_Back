@@ -5,8 +5,7 @@
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 {% endblock %}
 
-{% block content_title %}Bienvenue sur le back-office 🚀{% endblock %}
-{% block content_help %}{% endblock %}
+{% block content_title %}Bienvenue sur le back-office{% endblock %}
 
 {% block main %}
     <section class="admin-cards">
@@ -35,7 +34,7 @@
                 <p>Administre les comptes et accès.</p>
                 <div class="btn-row">
                     <a class="btn ea-btn" href="{{ ea_url().setController('App\\Controller\\Admin\\UserCrudController') }}">Gérer</ a>
-                    <a class="btn ea-btn primary" href="{{ ea_url().setController('App\\Controller\\Admin\\UserCrudController').        setAction ('new') }}">Créer</a>
+                    <a class="btn ea-btn primary" href="{{ ea_url().setController('App\\Controller\\Admin\\UserCrudController').setAction ('new') }}">Créer</a>
                 </div>
             </article>
         </div>
