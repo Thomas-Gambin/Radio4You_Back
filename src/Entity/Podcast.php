@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 #[ApiResource(
     operations: [
         new GetCollection(), // GET /api/podcasts
-        new Get(),           // GET /api/podcasts/{id}
+        new Get(), // GET /api/podcasts/{id}
     ],
     normalizationContext: ['groups' => ['podcast:read']],
     denormalizationContext: ['groups' => ['podcast:write']]
@@ -35,7 +35,6 @@ class Podcast
     #[Groups(['podcast:read', 'podcast:write'])]
     private ?string $description = null;
 
-    /** URL de la vidéo (YouTube, etc.) */
     #[ORM\Column(length: 1024, nullable: true)]
     #[Assert\Length(max: 1024)]
     #[Assert\Url(protocols: ['http', 'https'])]
