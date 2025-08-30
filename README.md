@@ -43,12 +43,17 @@ CORS_ALLOW_ORIGIN='^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$'
 Initialisez la base (drop, create, migrate, fixtures) :
 
 ```bash
-php bin/console doctrine:database:drop --force --if-exists
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 ```
+Si jamais il y a un bug durant la procédure :
 
+```bash
+php bin/console doctrine:database:drop --force --if-exists
+php bin/console make:migration
+```
+Puis refaire l'étape initale.
 ---
 
 ## ▶️ Lancer le serveur
