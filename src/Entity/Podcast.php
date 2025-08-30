@@ -7,41 +7,63 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     operations: [
-        new GetCollection(), // GET /api/articles
-        new Get(), // GET /api/articles/{id}
-    ]
+        new GetCollection(), // GET /api/podcasts
+        new Get(),           // GET /api/podcasts/{id}
+    ],
+    normalizationContext: ['groups' => ['podcast:read']],
+    denormalizationContext: ['groups' => ['podcast:write']]
 )]
 class Podcast
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
+    #[Groups(['podcast:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank]
+    #[Groups(['podcast:read', 'podcast:write'])]
     private string $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[Groups(['podcast:read', 'podcast:write'])]
-
     private ?string $description = null;
 
+    /** URL de la vidéo (YouTube, etc.) */
     #[ORM\Column(length: 1024, nullable: true)]
+    #[Assert\Length(max: 1024)]
+    #[Assert\Url(protocols: ['http', 'https'])]
+    #[Groups(['podcast:read', 'podcast:write'])]
     private ?string $videoUrl = null;
 
     #[ORM\Column(length: 1024, nullable: true)]
+    #[Assert\Length(max: 1024)]
+    #[Groups(['podcast:read'])]
+    private ?string $videoPath = null;
+
+    #[ORM\Column(length: 1024, nullable: true)]
+    #[Assert\Length(max: 1024)]
+    #[Assert\Url(protocols: ['http', 'https'])]
+    #[Groups(['podcast:read', 'podcast:write'])]
     private ?string $audioUrl = null;
 
     #[ORM\Column(length: 1024, nullable: true)]
+    #[Assert\Length(max: 1024)]
+    #[Groups(['podcast:read', 'podcast:write'])]
     private ?string $coverUrl = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['podcast:read'])]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['podcast:read'])]
     private \DateTimeImmutable $updatedAt;
 
     public function __construct()
@@ -57,7 +79,17 @@ class Podcast
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    // Getters/Setters
+    #[Assert\Callback]
+    public function validateEitherVideo(ExecutionContextInterface $context): void
+    {
+        if (!$this->videoUrl && !$this->videoPath) {
+            $context->buildViolation('Fournis une URL YouTube ou téléverse une vidéo.')
+                ->atPath('videoUrl')
+                ->addViolation();
+        }
+    }
+
+    // Getters / Setters
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +122,16 @@ class Podcast
     public function setVideoUrl(?string $videoUrl): self
     {
         $this->videoUrl = $videoUrl;
+        return $this;
+    }
+
+    public function getVideoPath(): ?string
+    {
+        return $this->videoPath;
+    }
+    public function setVideoPath(?string $videoPath): self
+    {
+        $this->videoPath = $videoPath;
         return $this;
     }
 
